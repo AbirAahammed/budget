@@ -1,6 +1,7 @@
+import { Toolbar } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { useEffect, useState } from "react";
-import { getAllExpense } from "../core/crud/ExpenseCrud";
+import { getAllExpense, updateExpense } from "../core/crud/ExpenseCrud";
 
 const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
@@ -15,12 +16,12 @@ const columns = [
         headerName: 'Price',
         width: 150,
         editable: true,
+        
     },
     {
         field: 'category',
         headerName: 'Category',
         width: 150,
-        editable: true, 
     },
     {
         field: 'timeOfPurchase',
@@ -28,8 +29,8 @@ const columns = [
         description: 'This column has a value getter and is not sortable.',
         sortable: false,
         width: 200,
-        valueGetter: (params) =>
-            `${params.row.timeOfPurchase}`,
+        // valueGetter: (params) =>
+        //     `${params.row.timeOfPurchase}`,
     },
 
 ];
@@ -42,13 +43,14 @@ const rows = [
         timeOfPurchase: "2022-04-05 22:44:57.347 +00:00"
       }
 ];
-function MonthExpense() {
+function MonthExpense({setPageTitle}) {
     const [expenses, setExpenses] = useState([])
     const handleRowClick = (e) => {
+        updateExpense(e)
         console.log(e)
     }
     const [isLoading, setLoading] = useState(true);
-
+    setPageTitle("Monthly Expense")
     useEffect(() => {
         async function fetchData() {
             getAllExpense().then(data => {
@@ -60,17 +62,10 @@ function MonthExpense() {
             fetchData()
         }
     });
-    // useEffect(() => {
-    //     async function fetchData() {
-    //       // You can await here
-    //       getAllExpense().then(data => setExpenses(data))
-    //       // ...
-    //     }
-    //     fetchData();
-    //   }, []);
-     
+         
     return (
         <div style={{ height: 400, width: '100%' }}>
+            <Toolbar/>
             <DataGrid
                 rows={expenses}
                 columns={columns}

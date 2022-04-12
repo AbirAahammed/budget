@@ -1,91 +1,128 @@
-import DateFNSUtils from "@material-ui/lab/AdapterDateFns";
-import DateTimePicker from "@material-ui/lab/DateTimePicker";
-import LocalizationProvider from "@material-ui/lab/LocalizationProvider";
-import { Grid, TextField } from "@mui/material";
+import MuiAppBar from '@mui/material/AppBar';
+import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import { Box } from "@mui/system";
-import React, { useState } from "react";
-import MonthExpense from "./MonthExpense";
+import MuiDrawer from '@mui/material/Drawer';
+import Grid from '@mui/material/Grid';
+import Link from '@mui/material/Link';
+import Paper from '@mui/material/Paper';
+import { createTheme, styled } from '@mui/material/styles';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import * as React from 'react';
 
-
-
-
-const categories = ['Food',
-    'Gifts',
-    'Health/medical',
-    'Home',
-    'Transportation',
-    'Personal',
-    'Pets',
-    'Utilities',
-    'Travel',
-    'Debt',
-    'Other',
-    'Eat out',
-    'Entertainment',
-    'Grocery',
-    'Auto Installment']
-function Dashboard() {
-    const [value, setValue] = useState(new Date());
-    const [type, setType] = useState("");
-
+function Copyright(props) {
     return (
-        <div className="Dashboard">
-            <h1>Dashboard</h1>
-            <MonthExpense/>
-            <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
-                <Box component="form" sx={{
-                    '& .MuiTextField-root': { m: 1, width: '25ch' },
-                }}>
-
-                    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                        <Grid item xs={6}>
-                            <TextField label="Expense" required></TextField>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <TextField label="Price" type="number" required></TextField>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <FormControl size="medium">
-                                <InputLabel id="demo-simple-select-label">Category</InputLabel>
-                                <Select
-                                    labelId="demo-simple-select-label"
-                                    id="demo-simple-select"
-                                    label="Category"
-                                    onChange={(e) => console.log(e)}
-                                >{categories.map((value, index) => (
-                                    <MenuItem value={index} name={value} >{value}</MenuItem>
-                                ))}
-
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                        <Grid item xs={6}>
-                            <LocalizationProvider dateAdapter={DateFNSUtils}>
-                                <DateTimePicker
-                                    value={value}
-                                    onChange={(newValue) => {
-                                        console.log(newValue.toUTCString());
-                                        setValue(newValue);
-                                    }}
-                                    renderInput={(startProps) => (
-                                        <React.Fragment>
-                                            <TextField {...startProps} />
-                                        </React.Fragment>
-                                    )}
-                                />
-                            </LocalizationProvider>
-                        </Grid>
-                    </Grid>
-                </Box>
-            </Container>
-
-        </div>
+        <Typography variant="body2" color="text.secondary" align="center" {...props}>
+            {'Copyright © '}
+            <Link color="inherit" href="https://mui.com/">
+                Your Website
+            </Link>{' '}
+            {new Date().getFullYear()}
+            {'.'}
+        </Typography>
     );
 }
 
-export default Dashboard;
+const drawerWidth = 240;
+
+const AppBar = styled(MuiAppBar, {
+    shouldForwardProp: (prop) => prop !== 'open',
+})(({ theme, open }) => ({
+    zIndex: theme.zIndex.drawer + 1,
+    transition: theme.transitions.create(['width', 'margin'], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+    }),
+    ...(open && {
+        marginLeft: drawerWidth,
+        width: `calc(100% - ${drawerWidth}px)`,
+        transition: theme.transitions.create(['width', 'margin'], {
+            easing: theme.transitions.easing.sharp,
+            duration: theme.transitions.duration.enteringScreen,
+        }),
+    }),
+}));
+
+const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(
+    ({ theme, open }) => ({
+        '& .MuiDrawer-paper': {
+            position: 'relative',
+            whiteSpace: 'nowrap',
+            width: drawerWidth,
+            transition: theme.transitions.create('width', {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.enteringScreen,
+            }),
+            boxSizing: 'border-box',
+            ...(!open && {
+                overflowX: 'hidden',
+                transition: theme.transitions.create('width', {
+                    easing: theme.transitions.easing.sharp,
+                    duration: theme.transitions.duration.leavingScreen,
+                }),
+                width: theme.spacing(7),
+                [theme.breakpoints.up('sm')]: {
+                    width: theme.spacing(9),
+                },
+            }),
+        },
+    }),
+);
+
+const mdTheme = createTheme();
+
+export default function DashboardContent({setPageTitle}) {
+    setPageTitle("Dashboard")
+
+    return (
+
+        <Box
+            component="main"
+            sx={{
+                backgroundColor: (theme) =>
+                    theme.palette.mode === 'light'
+                        ? theme.palette.grey[100]
+                        : theme.palette.grey[900],
+                flexGrow: 1,
+                height: '100vh',
+                overflow: 'auto',
+            }}
+        >
+            <Toolbar />
+            <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+                <Grid container spacing={3}>
+                    {/* Chart */}
+                    <Grid item xs={12} md={8} lg={9}>
+                        <Paper
+                            sx={{
+                                p: 2,
+                                display: 'flex',
+                                flexDirection: 'column',
+                                height: 240,
+                            }}
+                        >
+                        </Paper>
+                    </Grid>
+                    {/* Recent Deposits */}
+                    <Grid item xs={12} md={4} lg={3}>
+                        <Paper
+                            sx={{
+                                p: 2,
+                                display: 'flex',
+                                flexDirection: 'column',
+                                height: 240,
+                            }}
+                        >
+                        </Paper>
+                    </Grid>
+                    {/* Recent Orders */}
+                    <Grid item xs={12}>
+                        <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                        </Paper>
+                    </Grid>
+                </Grid>
+                <Copyright sx={{ pt: 4 }} />
+            </Container>
+        </Box>
+    );
+}
