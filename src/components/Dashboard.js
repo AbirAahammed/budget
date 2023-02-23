@@ -100,7 +100,7 @@ export default function DashboardContent({setPageTitle}) {
                                 flexDirection: 'column',
                                 height: 240,
                             }}
-                        >
+                        > 
                         </Paper>
                     </Grid>
                     {/* Recent Deposits */}
