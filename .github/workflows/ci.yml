@@ -20,9 +20,19 @@ jobs:
         
       - name: Build
         run: yarn build
-      - name: Deploy GitHub Pages site
-        uses: actions/deploy-pages@v1.2.4
+
+#      - name: Deploy GitHub Pages site
+#       uses: actions/deploy-pages@v1.2.4
+#        with:
+#          # GitHub token
+#          token: ${{ secrets.PAT_TOKEN }} 
+#          publish_dir: ./build
+
+      - name: Deploy Site
+        # uses: NickSchimek/deploy_jamstack_action@3ee9f2f407720678a67f8673712e9a37519ecfe2
+        uses: NickSchimek/deploy_jamstack_action@v1
         with:
+          # The branch to deploy to your site to
+          deploy-branch: master
           # GitHub token
-          token: ${{ secrets.PAT_TOKEN }} 
-          publish_dir: ./build
+          github-token: ${{ secrets.PAT_TOKEN }} 
