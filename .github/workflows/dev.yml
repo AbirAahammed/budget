@@ -11,15 +11,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3.3.0
-  
-      - name: npm/yarn/pnpm install
-        run : npm install
+      
+      - name: Install dependencies
+        run: npm install
 
       - name: Build
-        run : npm run build
-        
-      - name: GitHub Pages
-        uses: crazy-max/ghaction-github-pages@v3.1.0
-        with:
-          build_dir: ./build
-  
+        run: npm run build
