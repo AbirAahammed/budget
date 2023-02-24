@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Build and Deploy
 
 on:
   push:
@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Install dependencies
@@ -19,8 +19,8 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@releases/v4
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          branch: main
-          folder: build
+          github_token: ${{ secrets.PAT_TOKEN }}
+          publish_dir: ./build
